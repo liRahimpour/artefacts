@@ -30,10 +30,46 @@ jobs:
         with:
           name: artifacts
           path: /dist # phad auf dem runner machine nicht auf dem workflow storage
+      - name: show_runnerstructure
+        run: |
+          echo "=== Context paths ==="
+          echo "github.workspace: ${{ github.workspace }}"
+          echo "runner.os:        ${{ runner.os }}"
+          echo "runner.temp:      ${{ runner.temp }}"
+          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+          echo "GITHUB_EVENT_PATH:$GITHUB_EVENT_PATH"
+
+          echo ""
+          echo "=== Current directory ==="
+          pwd
+          tree
+
+          echo ""
+          echo "=== Files in current directory ==="
+          ls -la
+
+          echo ""
+          echo "=== File tree max depth 4 ==="
+          find . -maxdepth 4 -print
+          
+          echo ""
+          echo "=== zurück ==="
+          cd ..
+          ls -al
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Deploy
         run: echo "Deploying..."
+      - name: create_file
+        run: |
+          mkdir -p output/report
+          echo "meine upload text file" > output/report/test.txt
+          
+      - name: upload_my_file
+        uses: actions/upload_artefact@v4
+        with:
+          name: text_txt
+          path: output/report/test.txt
 
