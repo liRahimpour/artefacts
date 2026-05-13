@@ -1,14 +1,14 @@
 name: Deploy website
 on:
   push:
-    branches:
+    branches: #filter für branch
       - main
 jobs:
-  test:
+  test: #1. job
     runs-on: ubuntu-latest
     steps:
       - name: Get code
-        uses: actions/checkout@v3
+        uses: actiqons/checkout@v3
       - name: Install dependencies
         run: npm ci
       - name: Lint code
@@ -25,6 +25,12 @@ jobs:
         run: npm ci
       - name: Build website
         run: npm run build
+      - name: upload_artefacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts
+          path: ali
+            git add
   deploy:
     needs: build
     runs-on: ubuntu-latest
