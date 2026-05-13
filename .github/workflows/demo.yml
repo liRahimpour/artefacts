@@ -29,7 +29,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: artifacts
-          path: /dist # phad auf dem runner machine nicht auf dem workflow storage
+          path: dist # phad auf dem runner machine nicht auf dem workflow storage
       - name: show_runnerstructure
         run: |
           echo "=== Context paths ==="
